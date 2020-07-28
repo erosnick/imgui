@@ -9518,7 +9518,7 @@ void    ImGui::TableEndRow(ImGuiTable* table)
             ImRect bg_rect(table->WorkRect.Min.x, bg_y1, table->WorkRect.Max.x, bg_y2);
             bg_rect.ClipWith(table->BackgroundClipRect);
             if (bg_rect.Min.y < bg_rect.Max.y)
-                window->DrawList->AddRectFilledMultiColor(bg_rect.Min, bg_rect.Max, bg_col, bg_col, bg_col, bg_col);
+                window->DrawList->AddRectFilled(bg_rect.Min, bg_rect.Max, bg_col);
         }
 
         // Draw top border
@@ -10121,6 +10121,15 @@ int ImGui::TableGetHoveredColumn()
     if (!table)
         return -1;
     return (int)table->HoveredColumnBody;
+}
+
+void ImGui::TableSetRowBgColor(const ImVec4& color)
+{
+    ImGuiContext& g = *GImGui;
+    ImGuiTable* table = g.CurrentTable;
+    table->RowBgColor = GetColorU32(color);
+    if (table->RowBgColor == IM_COL32_DISABLE)
+        table->RowBgColor = 0;
 }
 
 void ImGui::TableSortSpecsSanitize(ImGuiTable* table)
